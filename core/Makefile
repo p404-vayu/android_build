@@ -4981,10 +4981,12 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(OTA_FROM_TARGET_
 
 TARGET_PACKAGE := $(PRODUCT_OUT)/$(P404_VERSION_MAJ).$(P404_VERSION_MIN)-$(shell date -u +%Y%m%d-%H%M%S)-$(P404_BUILDTYPE)-$(P404_BUILD).zip
 
-.PHONY: otapackage bacon
+.PHONY: otapackage bacon p404
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 bacon: otapackage
-  $(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(TARGET_PACKAGE)
+bacon: p404
+p404: otapackage
+	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(TARGET_PACKAGE)
 	$(hide) $(MD5) $(TARGET_PACKAGE) > $(TARGET_PACKAGE).md5sum
 	@echo -e ${CL_BLD}${CL_CYN}"===============================-Package complete-==============================="${CL_RST}
 	@echo -e ${CL_BLD}${CL_YLW}"Zip: "${CL_YLW} $(TARGET_PACKAGE)${CL_RST}
