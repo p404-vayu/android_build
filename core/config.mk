@@ -1249,6 +1249,12 @@ dont_bother_goals := out \
     vbmetaimage-nodeps \
     product-graph dump-products
 
+ifneq ($(P404_BUILD),)
+## We need to be sure the global selinux policies are included
+## last, to avoid accidental resetting by device configs
+$(eval include device/404/sepolicy/common/sepolicy.mk)
+endif
+
 ifeq ($(CALLED_FROM_SETUP),true)
 include $(BUILD_SYSTEM)/android_soong_config_vars.mk
 include $(BUILD_SYSTEM)/ninja_config.mk
@@ -1265,11 +1271,5 @@ RECORD_ALL_DEPS :=$= $(filter true,$(RECORD_ALL_DEPS))$(filter deps-license,$(MA
 
 # Include any vendor specific config.mk file
 -include vendor/*/build/core/config.mk
-
-ifneq ($(P404_BUILD),)
-## We need to be sure the global selinux policies are included
-## last, to avoid accidental resetting by device configs
-$(eval include device/404/sepolicy/common/sepolicy.mk)
-endif
 
 include $(BUILD_SYSTEM)/dumpvar.mk
