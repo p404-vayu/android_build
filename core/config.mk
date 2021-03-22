@@ -1266,4 +1266,10 @@ RECORD_ALL_DEPS :=$= $(filter true,$(RECORD_ALL_DEPS))$(filter deps-license,$(MA
 # Include any vendor specific config.mk file
 -include vendor/*/build/core/config.mk
 
+ifneq ($(P404_BUILD),)
+## We need to be sure the global selinux policies are included
+## last, to avoid accidental resetting by device configs
+$(eval include device/404/sepolicy/common/sepolicy.mk)
+endif
+
 include $(BUILD_SYSTEM)/dumpvar.mk
