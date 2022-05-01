@@ -212,11 +212,33 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
   script.Print("Target: {}".format(target_info.fingerprint))
 
   script.AppendExtra("ifelse(is_mounted(\"/system\"), unmount(\"/system\"));")
+  script.Print(" ")
+  script.Print("  ___          _        _     _ _   __  _ _  ")
+  script.Print(" | _ \_ _ ___ (_)___ __| |_  | | | /  \| | | ")
+  script.Print(" |  _/ '_/ _ \| / -_) _|  _| |_  _| () |_  _|")
+  script.Print(" |_| |_| \___// \___\__|\__|   |_| \__/  |_| ")
+  script.Print("            |__/                             ")
+  script.Print(" ")
   device_specific.FullOTA_InstallBegin()
 
   # All other partitions as well as the data wipe use 10% of the progress, and
   # the update of the system partition takes the remaining progress.
   system_progress = 0.9 - (len(block_diff_dict) - 1) * 0.1
+
+  if target_info.GetBuildProp("ro.404.version_code") is not None:
+    p404version = target_info.GetBuildProp("ro.404.version_code")
+    p404release = target_info.GetBuildProp("ro.404.version")
+    p404date = target_info.GetBuildProp("ro.build.date")
+    p404device = target_info.GetBuildProp("ro.404.device")
+    script.Print("--------------------------------------------------");
+    script.Print(" Build Date: %s"%(p404date));
+    script.Print("");
+    script.Print(" Device codename: %s"%(p404device));
+    script.Print("");
+    script.Print(" Project version: %s %s"%(p404version,p404release));
+    script.Print("");
+    script.Print("--------------------------------------------------");
+
   if OPTIONS.wipe_user_data:
     system_progress -= 0.1
   progress_dict = {partition: 0.1 for partition in block_diff_dict}
