@@ -119,6 +119,7 @@ PRODUCT_PACKAGES += \
     init_system \
     input \
     installd \
+    IntentResolver \
     ip \
     iptables \
     ip-up-vpn \
@@ -236,6 +237,7 @@ PRODUCT_PACKAGES += \
     pppd \
     preinstalled-packages-platform.xml \
     privapp-permissions-platform.xml \
+    prng_seeder \
     racoon \
     recovery-persist \
     resize2fs \
